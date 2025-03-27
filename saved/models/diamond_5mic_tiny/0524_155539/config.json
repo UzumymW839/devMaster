@@ -1,0 +1,88 @@
+{
+    "experiment_name": "diamond_5mic_tiny",
+    "n_gpu": 2,
+    "model": {
+        "type": "Tiny_FT_JNF",
+        "args": {
+            "output_type": "Nch_CRM",
+            "n_channels": 5,
+            "channels_to_filter": [
+                0,
+                1,
+                2,
+                3,
+                4
+            ],
+            "use_ch": [
+                0,
+                1,
+                2,
+                3,
+                4
+            ]
+        }
+    },
+    "dataset": {
+        "type": "ReverberatedFrontalSpeechDataset",
+        "args": {
+            "file_list_filename": "file_lists/diamond_reverberated_multichannel_speech/training.csv",
+            "noise_transform": "NoiseTransform",
+            "normalization_transform": "Normalization",
+            "noise_file_list_filename": "file_lists/diamond_multichannel_noise/training.csv",
+            "noise_fold": "/mnt/IDMT-WORKSPACE/DATA-STORE/metzrt/Data/multichannel_noise"
+        }
+    },
+    "validation_dataset": {
+        "type": "ReverberatedFrontalSpeechDataset",
+        "args": {
+            "file_list_filename": "file_lists/diamond_reverberated_multichannel_speech/validation.csv",
+            "noise_transform": "NoiseTransform",
+            "normalization_transform": "Normalization",
+            "noise_file_list_filename": "file_lists/diamond_multichannel_noise/validation.csv",
+            "noise_fold": "/mnt/IDMT-WORKSPACE/DATA-STORE/metzrt/Data/multichannel_noise"
+        }
+    },
+    "dataloader": {
+        "type": "BaseDataLoader",
+        "args": {
+            "collate_fn": "mix_collate_fn",
+            "num_workers": 8,
+            "batch_size": 4,
+            "drop_last": true
+        }
+    },
+    "optimizer": {
+        "type": "Adam",
+        "args": {
+            "lr": 0.0001,
+            "weight_decay": 0
+        }
+    },
+    "loss": "WavSTFTMagLoss",
+    "metrics": [
+        "LSDMetric",
+        "PESQMetric",
+        "STOIMetric"
+    ],
+    "lr_scheduler": {
+        "type": "ReduceLROnPlateau",
+        "args": {
+            "factor": 0.5,
+            "patience": 3
+        }
+    },
+    "trainer": {
+        "type": "AudioTrainer",
+        "args": {
+            "epochs": 100,
+            "log_step": 100,
+            "save_period": 1,
+            "verbosity": 2,
+            "monitor": "min val_loss",
+            "early_stop": 6,
+            "use_tensorboard": true,
+            "tensorboard_log_dir_profiler": "saved/log"
+        },
+        "save_dir": "saved/"
+    }
+}

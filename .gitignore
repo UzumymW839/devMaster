@@ -1,4 +1,7 @@
 pyenv/*
 */__pycache__/*
-saved/*
 */*.pyc
+*.wav
+diamond_examples/
+log/
+
