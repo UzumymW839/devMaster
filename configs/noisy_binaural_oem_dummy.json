@@ -1,0 +1,11 @@
+{
+    "experiment_name": "noisy_binaural_oem_dummy",
+    "n_gpu": 2,
+
+    "model": {
+        "type": "NoisyInputDummy",
+        "args": {
+            "selected_channels": [0, 1]
+        }
+    }
+}

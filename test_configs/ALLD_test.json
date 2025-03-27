@@ -1,0 +1,35 @@
+{
+    "test_dataset": {
+        "type": "ReverberatedFrontalSpeechDataset",
+        "args":{
+            "file_list_filename": "file_lists/diamond_reverberated_multichannel_speech/test.csv",
+            "noise_transform": "NoiseTransform",
+            "normalization_transform": "Normalization",
+            "noise_file_list_filename": "file_lists/diamond_multichannel_noise/test.csv",
+            "noise_fold": "/mnt/IDMT-WORKSPACE/DATA-STORE/metzrt/Data/multichannel_noise",
+            "use_channels": [0,1,2,3,4]
+        }
+    },
+
+    "dataloader": {
+        "type": "BaseDataLoader",
+        "args": {
+            "collate_fn": "mix_collate_fn",
+            "num_workers": 8,
+            "batch_size": 4,
+            "drop_last": true
+        }
+    },
+
+    "metrics": [
+        "LSDMetric", "PESQMetric", "STOIMetric"
+    ],
+
+    "tester": {
+        "type": "SNRTester",
+        "args": {
+            "SNR_list": [-5, 0, 5, 10, 15]
+        },
+        "save_dir": "saved/"
+}
+}

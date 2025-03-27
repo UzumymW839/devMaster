@@ -1,0 +1,2 @@
+Befehl um tensorboard im local host zu starten
+tensorboard --logdir saved/log/diamond_5mic_experiment/0801_143408/

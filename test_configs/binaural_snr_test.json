@@ -1,0 +1,34 @@
+{
+    "test_dataset": {
+        "type": "BinauralDataset",
+        "args":{
+            "file_list_filename": "file_lists/clean_multichannel_speech/test.csv",
+            "noise_transform": "NoiseTransform",
+            "normalization_transform": "Normalization",
+            "noise_file_list_filename": "file_lists/multichannel_noise/test.csv",
+            "noise_fold": "/mnt/IDMT-WORKSPACE/DATA-STORE/ohlems/work/BSE_data/multichannel_noise"
+        }
+    },
+
+    "dataloader": {
+        "type": "BaseDataLoader",
+        "args": {
+            "collate_fn": "mix_collate_fn",
+            "num_workers": 8,
+            "batch_size": 4,
+            "drop_last": true
+        }
+    },
+
+    "metrics": [
+        "MBSTOIMetric", "HASPIMetric"
+    ],
+
+    "tester": {
+        "type": "SNRTester",
+        "args": {
+            "SNR_list": [-5, 0, 5, 10, 15]
+        },
+        "save_dir": "saved/"
+}
+}
