@@ -2,6 +2,7 @@ import pathlib
 import numpy as np
 import matplotlib.pyplot as plt
 import sys
+import os
 sys.path.insert(0, str(pathlib.Path(__file__).parent.parent))
 
 import metrics
@@ -9,30 +10,36 @@ from utils.json_handling import read_json
 
 cmap = plt.get_cmap('tab10')
 
-RESULTS_PATH = pathlib.Path('saved/test_output')
-MODELS_PATH = pathlib.Path('saved/models')
+parent_path = pathlib.Path(__file__).parent.parent
+RESULTS_PATH = parent_path.joinpath('saved/test_output')
+#RESULTS_PATH = pathlib.Path('saved/test_output')
+#MODELS_PATH = pathlib.Path('saved/models')
+MODELS_PATH = parent_path.joinpath('saved/models')
 
 out_folder = RESULTS_PATH.joinpath('plots')
 
 dict_list = [
-    {"configuration_name": 'noisy_oem_dummy', "run_string": 'default_run', "label": 'keine Verarbeitung', 'color': cmap(0), 'linestyle': '-'},
+    {"configuration_name": 'noisy_oem_dummy', "run_string": 'default_run', "label": 'no processing', 'color': cmap(0), 'linestyle': '-'},
     #{"configuration_name": 'diamond_5mic_tiny', "run_string": '0524_155539', "label": 'FT_JNF Tiny', 'color': cmap(1), 'linestyle': '-'}, # half model without KD
     #{"configuration_name": 'diamond_5mic_vtiny', "run_string": '0526_175613', "label": 'FT_JNF vTiny', 'color': cmap(2), 'linestyle': '-'}, # quarter model without KD
     #{"configuration_name": 'diamond_5mic_experiment', "run_string": '0502_161633', "label": 'FT_JNF', 'color': cmap(3), 'linestyle': '-'}, # teacher model
-    {"configuration_name": 'diamond_5mic_experiment', "run_string": '0801_143408', "label": 'Lehrer', 'color': cmap(1), 'linestyle': '-'}, # teacher with 8 batch size
+    {"configuration_name": 'diamond_5mic_experiment', "run_string": '0801_143408', "label": 'teacher', 'color': cmap(1), 'linestyle': '-'}, # teacher with 8 batch size
     #{"configuration_name": 'diamond_TwoSteps', "run_string": '0610_135810', "label": 'tiny FT_JNF KD MAE', 'color': cmap(6), 'linestyle': '-'}, # half model with elementwise absolute error with KD
     #{"configuration_name": 'diamond_TwoSteps', "run_string": '0614_233313', "label": 'vtiny FT_JNF KD MAE', 'color': cmap(7), 'linestyle': '-'}, # quarter model with elementwise absolute error with KD
-    {"configuration_name": "diamond_normal_trainlist", "run_string": '0917_105029', "label": 'Schüler ohne KD', 'color': cmap(2), 'linestyle': '-'}, # target model with normal training 64/16er: 0624_120334 5_mic_target
-    {"configuration_name": 'diamond_TwoSteps', "run_string": '0808_155225', "label": 'Schüler KD Mask', 'color': cmap(4), 'linestyle': '-'}, # target model with Mask KD MAE
-    {"configuration_name": 'diamond_TwoSteps', "run_string": '0701_172332', "label": 'Schüler KD LSTM 1', 'color': cmap(7), 'linestyle': '-'}, # target model with Regressor KD
-    {"configuration_name": 'diamond_LinD', "run_string": '0828_232658', "label": 'Schüler KD Lin', 'color': cmap(5), 'linestyle': '-'}, # target model MAE between Linear Layers 64/15er: 0806_165806 diamond_twoSteps
-    {"configuration_name": 'diamond_TS_ALLD', "run_string": '0817_200225', "label": 'Schüler KD LSTM 2', 'color': cmap(3), 'linestyle': '-'},
+    {"configuration_name": "diamond_normal_trainlist", "run_string": '0917_105029', "label": 'without KD', 'color': cmap(2), 'linestyle': '-'}, # target model with normal training 64/16er: 0624_120334 5_mic_target
+    {"configuration_name": 'diamond_TwoSteps', "run_string": '0808_155225', "label": 'KD Mask', 'color': cmap(4), 'linestyle': '-'}, # target model with Mask KD MAE
+    {"configuration_name": 'diamond_TwoSteps', "run_string": '0701_172332', "label": 'KD LSTM 1', 'color': cmap(7), 'linestyle': '-'}, # target model with Regressor KD
+    {"configuration_name": 'diamond_LinD', "run_string": '0828_232658', "label": 'KD Lin', 'color': cmap(5), 'linestyle': '-'}, # target model MAE between Linear Layers 64/15er: 0806_165806 diamond_twoSteps
+    {"configuration_name": 'diamond_TS_ALLD', "run_string": '0817_200225', "label": 'KD LSTM 2', 'color': cmap(3), 'linestyle': '-'},
     #{"configuration_name": 'diamond_TwoSteps', "run_string": '1023_132130', "label": 'Schüler LSTM 1', 'color': cmap(7), 'linestyle': '-'}, # between first LSTM layer
-    {"configuration_name": 'diamond_TwoSteps', "run_string": '1001_173125', "label": 'Schüler KD LSTM 1 + 2 + Lin', 'color': cmap(6), 'linestyle': '-'}, # t model MSE between Linear Layers
+    {"configuration_name": 'diamond_TwoSteps', "run_string": '1001_173125', "label": 'KD LSTM 1 + 2 + Lin', 'color': cmap(6), 'linestyle': '-'}, # t model MSE between Linear Layers
     #{"configuration_name": 'diamond_TwoSteps', "run_string": '0721_140838', "label": 't FT_JNF KD MSE-All', "color": cmap(7), "linestyle": '-'} # t model MSE between all layers
 ]
+# get the path of the parent folder
 
-test_config = read_json('test_configs/diamond_snr_test.json')
+
+test_config_path = parent_path.joinpath('test_configs/diamond_snr_test.json')
+test_config = read_json(test_config_path)
 
 plot_string = 'simulated_data_snr_results_' # UMBENNEN!
 
