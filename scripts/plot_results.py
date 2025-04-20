@@ -32,7 +32,7 @@ dict_list = [
     {"configuration_name": 'diamond_LinD', "run_string": '0828_232658', "label": 'KD Lin', 'color': cmap(5), 'linestyle': '-'}, # target model MAE between Linear Layers 64/15er: 0806_165806 diamond_twoSteps
     {"configuration_name": 'diamond_TS_ALLD', "run_string": '0817_200225', "label": 'KD LSTM 2', 'color': cmap(3), 'linestyle': '-'},
     #{"configuration_name": 'diamond_TwoSteps', "run_string": '1023_132130', "label": 'Schüler LSTM 1', 'color': cmap(7), 'linestyle': '-'}, # between first LSTM layer
-    {"configuration_name": 'diamond_TwoSteps', "run_string": '1001_173125', "label": 'KD LSTM 1 + 2 + Lin', 'color': cmap(6), 'linestyle': '-'}, # t model MSE between Linear Layers
+    {"configuration_name": 'diamond_TwoSteps', "run_string": '1001_173125', "label": 'KD Multi', 'color': cmap(6), 'linestyle': '-'}, # t model MSE between Linear Layers
     #{"configuration_name": 'diamond_TwoSteps', "run_string": '0721_140838', "label": 't FT_JNF KD MSE-All', "color": cmap(7), "linestyle": '-'} # t model MSE between all layers
 ]
 # get the path of the parent folder
@@ -97,6 +97,6 @@ for n_metric, met in enumerate(metric_functions):
 
     plt.legend(ncol=2)
     plt.tight_layout()
-    plt.savefig(plot_fname)
+    plt.savefig(plot_fname, dpi=300, bbox_inches='tight')
 
 

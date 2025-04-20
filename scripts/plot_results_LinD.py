@@ -233,7 +233,7 @@ for n_snr in range(len(SNR_list)):
             macs,
             pesq_result2[n_snr,:],
             pesq_yerr2[n_snr,:],
-            label=f'KD LSTM 1 + 2 + Lin',#f'{SNR_list[n_snr]} dB', 
+            label=f'KD Multi',#f'{SNR_list[n_snr]} dB', 
             linestyle='-', 
             marker='o', 
             color=cmap(6),
@@ -262,10 +262,11 @@ for n_snr in range(len(SNR_list)):
         # plot a vertical blue line at the x position of the 1116358656 MACs
         plt.axvline(x=1116358656, color='b', linestyle='--')
         # plot a horizontal green line at the y position of pesq equal to 1.55
-        plt.axhline(y=1.55, color='g', linestyle='--',label = 'teachers pesq-score at 0 dB SNR')
+        plt.axhline(y=1.55, color='g', linestyle='--',label = 'teachers pesq score at 0 dB SNR')
 
 plt.legend(ncol=2)
-plt.savefig(plot_fname)
+plt.tight_layout()
+plt.savefig(plot_fname, dpi=300, bbox_inches='tight')
 
 
 
