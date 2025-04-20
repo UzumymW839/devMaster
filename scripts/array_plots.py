@@ -52,6 +52,14 @@ def plotPosition(source_distance,valid_azi_directions,valid_ele_directions, arra
     ax.set_ylabel('Y')
     ax.set_zlabel('Z')
 
+    # increase the textsize
+    ax.xaxis.label.set_size(15)
+    ax.yaxis.label.set_size(15)
+    ax.zaxis.label.set_size(15)
+    ax.tick_params(axis='x', labelsize=15)
+    ax.tick_params(axis='y', labelsize=15)
+    ax.tick_params(axis='z', labelsize=15)
+
     # berechne die abstände der mikrofone zum schallquellpunkt
     """ distances = []
     for mic in array_geometry:
